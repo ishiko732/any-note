@@ -1,0 +1,3 @@
+- [ ] [CS61A: Structure and Interpretation of Computer Programs](https://csdiy.wiki/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/CS61A/)
+	- [ ] https://github.com/afshinea/stanford-cs-229-machine-learning
+- [ ] CS229 ![[Pasted image 20231203235054.png]]
