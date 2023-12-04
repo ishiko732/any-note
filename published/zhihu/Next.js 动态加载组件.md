@@ -9,7 +9,7 @@ title:  【Next.js】动态加载组件
 # 想法
 - 根据Next.js 13的路由设计思想[1] 和Server Component可以访问后端服务（数据库，文件等），那么我们是不是可以通过动态读取文件加载对应的JSX组件呢？
 ![[Pasted image 20231204110434.png]]
-- 能否基于`next/dynamic`实现加载某一个目录下的全部组件（Server/Client Component）？
+- 能否基于`next/dynamic`[2] 实现加载某一个目录下的全部组件（Server/Client Component）？
 
 
 # 实现
@@ -69,6 +69,8 @@ export default async function Page({...}){
 ## 2.创建通用MenuItem组件
 之前我们排除了`src/components/menu/items/index.tsx`组件，目的就是为了创建通用的[MenuItem](https://github.com/ishiko732/ts-fsrs-demo/blob/31fb6c4f61b38c650f301943d9e808f27cb64d05/src/components/menu/items/index.tsx)组件：
 ```typescript
+...
+
 export default async function MenuItem({
   tip,
   className,
@@ -125,13 +127,68 @@ async function MenuItemContent({
 ```
 - 为了能够适配Server Actions[3]同时避免混用服务器组件和客户端组件（Client Compoent）用`return formAction && !onClick ? `来决定如何进行渲染。
 - 通过`disable`参数可以保证该组件是否进行渲染操作
+- 通过`dialog`参数可以扩展对话框组件
 
 > 该组件会在服务器上渲染完后才到视图层
 
-## 3.创建客户端菜单组件
+## 3.创建客户端菜单组件例子
+如果需要使用`state`，`context`等资源的话，需要创建客户端组件，在文件首行添加`'use client'`来进行声明。
+
+```typescript
+'use client'
+import { useState } from "react";
+import MenuItem from ".";
+
+function ClientTest() {
+  const [cnt,setCnt] = useState(0)
+  const handleClick =()=>{
+    setCnt(pre=>pre+1)
+  }
+
+  return (
+    <MenuItem tip="Client Test" onClick={handleClick}>
+      <button className="btn btn-xs btn-square" type="submit">
+        {cnt}
+      </button>
+    </MenuItem>
+  );
+}
+
+export default ClientTest;
+```
+
+## 4.创建服务器菜单组件例子
+
+```typescript
+import MenuItem from ".";
+
+async function ServerTest() {
+  const submit = async (formData: FormData) => {
+    "use server";
+    console.log(formData);
+    console.log("hello");
+  };
+
+  return (
+    <MenuItem tip="Server Test" formAction={submit}>
+      <button className="btn btn-square btn-xs" type="submit">
+        TEST
+      </button>
+    </MenuItem>
+  );
+}
+
+export default ServerTest;
+```
+
+# 构建结果
+通过创建以下文件后，便可以在页面上显示出菜单组件的列表
+![[Pasted image 20231204124342.png]]
+
+> TIP: 文件上的_数字.tsx表示排序，目前没有找到更好的办法，除非加多一个配置文件进行配置顺序，但会失去一定的扩展性
+> 在[dynamicReactNodes](https://github.com/ishiko732/ts-fsrs-demo/blob/31fb6c4f61b38c650f301943d9e808f27cb64d05/src/components/menu/index.tsx#L34)添加了sort进行扩展排序操作，否则将会按照文件名顺序进行渲染
 
 
-## 4.创建服务器菜单组件
 
 # 参考
 [1]:Routing Fundamentals:https://nextjs.org/docs/app/building-your-application/routing
