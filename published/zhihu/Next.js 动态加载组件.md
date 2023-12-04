@@ -66,6 +66,9 @@ export default async function Page({...}){
 ```
 
 > 该组件会在服务器上渲染完后才到视图层
+
+文件：
+https://github.com/ishiko732/ts-fsrs-demo/blob/237ff583d62735e7211173decfed5df956981ae8/src/components/menu/index.tsx
 ## 2.创建通用MenuItem组件
 之前我们排除了`src/components/menu/items/index.tsx`组件，目的就是为了创建通用的[MenuItem](https://github.com/ishiko732/ts-fsrs-demo/blob/31fb6c4f61b38c650f301943d9e808f27cb64d05/src/components/menu/items/index.tsx)组件：
 ```typescript
@@ -131,6 +134,9 @@ async function MenuItemContent({
 
 > 该组件会在服务器上渲染完后才到视图层
 
+文件：
+https://github.com/ishiko732/ts-fsrs-demo/blob/237ff583d62735e7211173decfed5df956981ae8/src/components/menu/items/index.tsx
+
 ## 3.创建客户端菜单组件例子
 如果需要使用`state`，`context`等资源的话，需要创建客户端组件，在文件首行添加`'use client'`来进行声明。
 
@@ -156,6 +162,8 @@ function ClientTest() {
 
 export default ClientTest;
 ```
+文件：
+https://github.com/ishiko732/ts-fsrs-demo/blob/237ff583d62735e7211173decfed5df956981ae8/src/components/menu/items/client-test_4.tsx
 
 ## 4.创建服务器菜单组件例子
 
@@ -180,7 +188,8 @@ async function ServerTest() {
 
 export default ServerTest;
 ```
-
+文件：
+https://github.com/ishiko732/ts-fsrs-demo/blob/237ff583d62735e7211173decfed5df956981ae8/src/components/menu/items/server-test_3.tsx
 # 构建结果
 通过创建以下文件后，便可以在页面上显示出菜单组件的列表
 ![[Pasted image 20231204124342.png]]
