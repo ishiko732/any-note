@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ml/readme.md",
+                "file": "published/zhihu/Next.js 动态加载组件.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "2cfaf925a42f9946",
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ml/readme.md",
+                "file": "published/zhihu/Next.js 动态加载组件.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ml/readme.md",
+                "file": "published/zhihu/Next.js 动态加载组件.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ml/readme.md"
+                "file": "published/zhihu/Next.js 动态加载组件.md"
               }
             }
           }
@@ -149,10 +149,12 @@
   },
   "active": "3c0f3a9845af2623",
   "lastOpenFiles": [
+    "resource/Pasted image 20231204110944.png",
+    "resource/Pasted image 20231204110434.png",
     "resource/Pasted image 20231203235054.png",
-    "resource",
-    "published/zhihu/Next.js 非侵入式加载组件.md",
     "ml/readme.md",
+    "resource",
+    "published/zhihu/Next.js 动态加载组件.md",
     "ml",
     "published/zenn",
     "published/zhihu",
