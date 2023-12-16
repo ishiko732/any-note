@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CS61A/修饰器.md",
+                "file": "published/zhihu/TS-FSRS数据库表设计.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "CS61A/修饰器.md",
+                "file": "published/zhihu/TS-FSRS数据库表设计.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "CS61A/修饰器.md",
+                "file": "published/zhihu/TS-FSRS数据库表设计.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "CS61A/修饰器.md"
+                "file": "published/zhihu/TS-FSRS数据库表设计.md"
               }
             }
           }
@@ -162,10 +162,13 @@
   },
   "active": "58c8a42815590e75",
   "lastOpenFiles": [
+    "resource/fsrs.drawio.svg",
+    "published/zhihu/Next.js 动态加载组件.md",
+    "published/zhihu/TS-FSRS数据库表设计.md",
+    "CS61A/修饰器.md",
     "resource/Pasted image 20231210223947.png",
     "resource/Pasted image 20231210223926.png",
     "CS61A/高阶函数.md",
-    "CS61A/修饰器.md",
     "resource/Pasted image 20231210222404.png",
     "ml/readme.md",
     "CS61A",
@@ -175,7 +178,6 @@
     "resource/Pasted image 20231204110944.png",
     "resource/Pasted image 20231204110434.png",
     "resource/Pasted image 20231203235054.png",
-    "published/zhihu/Next.js 动态加载组件.md",
     "resource",
     "published/zhihu/Next.js 非侵入式加载组件.md",
     "ml",
