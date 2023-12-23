@@ -8,7 +8,7 @@
     height="200"
   />
   <img 
-    src="https://github-readme-stats.vercel.app/api/top-langs/?username=ishiko732&show_icons=true&theme=transparent&layout=donut&hide=javascript,java&show=review"
+    src="https://github-readme-stats.vercel.app/api/top-langs/?username=ishiko732&show_icons=true&theme=transparent&layout=donut&hide=javascript,java,html,css,vhdl,scss&show=review"
     alt="My Language stats"
     height="200"
   />
