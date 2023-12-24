@@ -13,31 +13,21 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "published/zhihu/Next.js 动态加载组件.md",
+                "file": "CS61A/高阶函数.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "feca60d57253bb28",
+            "id": "58c8a42815590e75",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "published/zhihu/TS-FSRS数据库表设计.md",
                 "mode": "source",
                 "source": false
-              }
-            }
-          },
-          {
-            "id": "0bb1f8fe10714eca",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.4.16"
               }
             }
           }
@@ -92,7 +82,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 300
   },
   "right": {
     "id": "2cfaf925a42f9946",
@@ -108,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "published/zhihu/TS-FSRS数据库表设计.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "published/zhihu/TS-FSRS数据库表设计.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -148,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "published/zhihu/TS-FSRS数据库表设计.md"
               }
             }
           }
@@ -170,26 +160,28 @@
       "obsidian-to-anki-plugin:Obsidian_to_Anki - Scan Vault": false
     }
   },
-  "active": "feca60d57253bb28",
+  "active": "fba49e114f1aa088",
   "lastOpenFiles": [
-    "published/zhihu/Next.js 动态加载组件.md",
     "README.md",
+    "published/zhihu/未命名.md",
+    "published/zhihu/TS-FSRS数据库表设计.md",
+    "published/zhihu/Next.js 动态加载组件.md",
     "resource/fsrs.drawio.svg",
+    "CS61A/修饰器.md",
     "resource/Pasted image 20231210223947.png",
     "resource/Pasted image 20231210223926.png",
-    "resource/Pasted image 20231210222404.png",
-    "published/zhihu/TS-FSRS数据库表设计.md",
     "CS61A/高阶函数.md",
-    "CS61A/修饰器.md",
+    "resource/Pasted image 20231210222404.png",
+    "ml/readme.md",
     "CS61A",
-    "resource/Pasted image 20231204110944.png",
     "resource/Pasted image 20231204124342.png",
     "resource/Pasted image 20231204124245.png",
     "resource/Pasted image 20231204124124.png",
+    "resource/Pasted image 20231204110944.png",
     "resource/Pasted image 20231204110434.png",
     "resource/Pasted image 20231203235054.png",
-    "ml/readme.md",
     "resource",
+    "published/zhihu/Next.js 非侵入式加载组件.md",
     "ml",
     "published/zenn",
     "published/zhihu",
