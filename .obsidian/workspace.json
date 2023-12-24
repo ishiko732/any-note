@@ -13,38 +13,36 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CS61A/高阶函数.md",
+                "file": "published/zhihu/Next.js 动态加载组件.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "58c8a42815590e75",
+            "id": "feca60d57253bb28",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "published/zhihu/TS-FSRS数据库表设计.md",
+                "file": "README.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "d6b610638cebcfba",
+            "id": "0bb1f8fe10714eca",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "release-notes",
               "state": {
-                "file": "published/zhihu/TS-FSRS的工作流.md",
-                "mode": "source",
-                "source": false
+                "currentVersion": "1.4.16"
               }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -94,7 +92,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "2cfaf925a42f9946",
@@ -110,7 +108,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "published/zhihu/TS-FSRS的工作流.md",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +125,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "published/zhihu/TS-FSRS的工作流.md",
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -150,7 +148,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "published/zhihu/TS-FSRS的工作流.md"
+                "file": "README.md"
               }
             }
           }
@@ -172,29 +170,28 @@
       "obsidian-to-anki-plugin:Obsidian_to_Anki - Scan Vault": false
     }
   },
-  "active": "d6b610638cebcfba",
+  "active": "feca60d57253bb28",
   "lastOpenFiles": [
     "resource/fsrs-TS-FSRS-BOXES.drawio.png",
-    "published/zhihu/TS-FSRS数据库表设计.md",
     "resource/fsrs-TS-FSRS WorkFlow.drawio 1.png",
-    "resource/fsrs-TS-FSRS WorkFlow.drawio.png",
-    "published/zhihu/TS-FSRS的工作流.md",
     "resource/Pasted image 20231224141129.png",
-    "README.md",
+    "published/zhihu/TS-FSRS的工作流.md",
     "published/zhihu/Next.js 动态加载组件.md",
+    "README.md",
     "resource/fsrs.drawio.svg",
-    "CS61A/修饰器.md",
     "resource/Pasted image 20231210223947.png",
     "resource/Pasted image 20231210223926.png",
-    "CS61A/高阶函数.md",
     "resource/Pasted image 20231210222404.png",
-    "ml/readme.md",
+    "published/zhihu/TS-FSRS数据库表设计.md",
+    "CS61A/高阶函数.md",
+    "CS61A/修饰器.md",
     "CS61A",
+    "resource/Pasted image 20231204110944.png",
     "resource/Pasted image 20231204124342.png",
     "resource/Pasted image 20231204124245.png",
     "resource/Pasted image 20231204124124.png",
+    "ml/readme.md",
     "resource",
-    "published/zhihu/Next.js 非侵入式加载组件.md",
     "ml",
     "published/zenn",
     "published/zhihu",
