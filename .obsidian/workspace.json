@@ -129,12 +129,12 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -149,18 +149,18 @@
   },
   "active": "3c0f3a9845af2623",
   "lastOpenFiles": [
-    "resource/Pasted image 20240114174308.png",
-    "resource/Pasted image 20240114174151.png",
-    "resource/Pasted image 20240114173852.png",
-    "resource/Pasted image 20240114173535.png",
-    "resource/Pasted image 20240114173019.png",
-    "resource/Pasted image 20240114172901.png",
-    "resource/Pasted image 20240114171714.png",
-    "resource/Pasted image 20240114171021.png",
-    "resource/Pasted image 20240114170750.png",
-    "resource/Pasted image 20240114164846.png",
+    "resource/Pasted image 20240114214042.png",
+    "resource/Pasted image 20240114214027.png",
+    "resource/Pasted image 20240114213657.png",
+    "resource/Pasted image 20240114213331.png",
+    "resource/Pasted image 20240114213250.png",
+    "resource/Pasted image 20240114212851.png",
+    "resource/Pasted image 20240114212432.png",
+    "resource/Pasted image 20240114212055.png",
+    "resource/Pasted image 20240114211946.png",
+    "resource/Pasted image 20240114211649.png",
+    "resource/Pasted image 20240114211510.png",
     "published/zhihu/基于TS-FSRS和Next.js制作简单的抽成卡项目.md",
-    "resource/Pasted image 20240114164214.png",
     "published/zhihu/Next.js 动态加载组件.md",
     "README.md",
     "published/zhihu/TS-FSRS的工作流.md",
