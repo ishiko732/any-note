@@ -13,36 +13,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "published/zhihu/Next.js 动态加载组件.md",
+                "file": "published/zhihu/基于TS-FSRS和Next.js制作简单的抽成卡项目.md",
                 "mode": "source",
                 "source": false
-              }
-            }
-          },
-          {
-            "id": "feca60d57253bb28",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "0bb1f8fe10714eca",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.4.16"
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -108,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "published/zhihu/基于TS-FSRS和Next.js制作简单的抽成卡项目.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -125,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "published/zhihu/基于TS-FSRS和Next.js制作简单的抽成卡项目.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -148,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "published/zhihu/基于TS-FSRS和Next.js制作简单的抽成卡项目.md"
               }
             }
           }
@@ -170,26 +147,27 @@
       "obsidian-to-anki-plugin:Obsidian_to_Anki - Scan Vault": false
     }
   },
-  "active": "feca60d57253bb28",
+  "active": "3c0f3a9845af2623",
   "lastOpenFiles": [
-    "resource/fsrs-TS-FSRS-BOXES.drawio.png",
-    "resource/fsrs-TS-FSRS WorkFlow.drawio 1.png",
-    "resource/Pasted image 20231224141129.png",
-    "published/zhihu/TS-FSRS的工作流.md",
+    "resource/Pasted image 20240114174308.png",
+    "resource/Pasted image 20240114174151.png",
+    "resource/Pasted image 20240114173852.png",
+    "resource/Pasted image 20240114173535.png",
+    "resource/Pasted image 20240114173019.png",
+    "resource/Pasted image 20240114172901.png",
+    "resource/Pasted image 20240114171714.png",
+    "resource/Pasted image 20240114171021.png",
+    "resource/Pasted image 20240114170750.png",
+    "resource/Pasted image 20240114164846.png",
+    "published/zhihu/基于TS-FSRS和Next.js制作简单的抽成卡项目.md",
+    "resource/Pasted image 20240114164214.png",
     "published/zhihu/Next.js 动态加载组件.md",
     "README.md",
-    "resource/fsrs.drawio.svg",
-    "resource/Pasted image 20231210223947.png",
-    "resource/Pasted image 20231210223926.png",
-    "resource/Pasted image 20231210222404.png",
+    "published/zhihu/TS-FSRS的工作流.md",
     "published/zhihu/TS-FSRS数据库表设计.md",
     "CS61A/高阶函数.md",
     "CS61A/修饰器.md",
     "CS61A",
-    "resource/Pasted image 20231204110944.png",
-    "resource/Pasted image 20231204124342.png",
-    "resource/Pasted image 20231204124245.png",
-    "resource/Pasted image 20231204124124.png",
     "ml/readme.md",
     "resource",
     "ml",
