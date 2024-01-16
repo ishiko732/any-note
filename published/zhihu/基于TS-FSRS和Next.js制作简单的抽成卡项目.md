@@ -65,10 +65,12 @@ npm run dbpush
 
 填写以下内容，完成创建操作：
 ![[Pasted image 20240114162334.png]]
+
 ```
 Homepage URL: http://localhost:3000/
 Authorization callback URL: http://localhost:3000/api/auth/callback/github
 ```
+
 点击`Generate a new client secret`完成创建`clientSecret`
 ![[Pasted image 20240114162501.png]]
 现在我们知道了`clientId`和`clientSecret`后，可以在`.env.local`填写好信息：
@@ -326,3 +328,87 @@ type RecordLogItem = {
 ![[Pasted image 20240116140140.png]]
 
 ![[Pasted image 20240116140249.png]]
+
+
+# 部署
+
+目前`ts-fsrs-demo`使用了`PlanetScale`作为数据库、`Cloudflare`作为域名商，通过Github进行自动化部署到`Vercel`中。
+
+## fork仓库
+在GitHub中，完成fork仓库：
+```
+https://github.com/ishiko732/ts-fsrs-demo
+```
+
+![[Pasted image 20240116160926.png]]
+
+![[Pasted image 20240116160957.png]]
+
+## 导入到Vercel
+到`Vercel`上，安装`ts-fsrs-demo`
+![[Pasted image 20240116161116.png]]
+
+## 修改编译设置
+
+在`Build and Output Settings`中，修改`Build Command`为：
+```bash
+prisma generate && next build
+```
+![[Pasted image 20240116161257.png]]
+
+## 获取数据库访问参数
+到`Planetscale`的`Dashboard`中，选择`Connect`新增一个连接：
+![[Pasted image 20240116164109.png]]
+
+选择`Role:Read/Write`，后点击`Create Password`生成密钥信息：
+![[Pasted image 20240116164213.png]]
+
+![[Pasted image 20240116164328.png]]
+点击复制按钮复制数据库连接`DATABASE_URL`的参数。
+## 添加环境变量
+在`Environment Variables`中设置以下相关参数（本地与`.env.local`一致）：
+```bash
+DATABASE_URL : xxx  ### MySQL数据库地址
+NEXTAUTH_SECRET : xxx # openssl rand -base64 32
+GITHUB_ID : xxx # github clientId
+GITHUB_SECRET : xxx  # github clientSecret 
+GITHUB_ADMIN_ID : xxx # github User Id
+```
+![[Pasted image 20240116161715.png]]
+
+![[Pasted image 20240116161848.png]]
+
+## 最后部署工作
+添加完环境变量后点击`Deploy`进行部署项目，尽情等候一段时间则会显示部署成功：
+![[Pasted image 20240116162355.png]]
+让我们点击`Continue to Dashboard`,完成最后的配置工作：
+![[Pasted image 20240116162618.png]]
+复制这个`Domains`的地址，然后转到`Settings->Environment Variables`添加以下内容：
+```bash
+NEXTAUTH_URL : https://ts-fsrs-demo-sepia.vercel.app/
+```
+![[Pasted image 20240116162923.png]]
+
+
+好了，你现在可以通过`https://ts-fsrs-demo-sepia.vercel.app/`（该部署资源已删除）现在访问你部署的`ts-fsrs-demo`了。
+
+## 关联自己的域名
+
+转到`Settings->Domains` ，在输入框里输入自己的域名，并点击`Add`
+![[Pasted image 20240116163343.png]]
+![[Pasted image 20240116163450.png]]
+
+提示我们未成功配置，我们需要到`Cloudflare`去配置DNS和SSL：
+![[Pasted image 20240116163700.png]]
+```
+Type Name Value
+CNAME fsrs cname.vercel-dns.com.
+```
+
+
+![[Pasted image 20240116163731.png]]
+需要选择`Full`模式，否则无法访问到项目。
+
+当配置完成以后，回到Vercel，你则可以看到通过测试：
+![[Pasted image 20240116163837.png]]
+那么你则可以通过[fsrs.parallelveil.com](https://fsrs.parallelveil.com/)进行访问该项目。
