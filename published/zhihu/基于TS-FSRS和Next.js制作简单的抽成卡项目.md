@@ -1,6 +1,6 @@
 ## 介绍
-为了能够抵消遗忘曲线的影响，在有了FSRS算法以后，还需要一个能来根据FSRS调度的时间来展示笔记数据，并能够可视化的进行下一次调度。
-`ts-fsrs-demo`是一个简单的demo，最初的初衷是为了学习`プログラミング必須英単語600+`的单词并且修复`ts-fsrs`在实际项目中存在的问题而制作的。`ts-fsrs-demo`能够让开发者做出类似于背单词那样的抽成卡web项目，利用`vercel`和`planetscale`进行部署和存储数据实现多用户登录和多设备使用功能。
+为了能够抵消遗忘曲线的影响，在有了FSRS算法以后，还需要一个能根据FSRS调度的时间来展示笔记数据，并能够可视化的进行下一次调度。
+`ts-fsrs-demo`是一个简单的demo，最初的初衷是为了学习`プログラミング必須英単語600+`的单词并且修复`ts-fsrs`在实际项目中可能存在的问题而制作的项目。`ts-fsrs-demo`能够让开发者做出类似于背单词那样的抽成卡web项目，利用`Vercel`和`Planetscale`进行部署和存储数据实现多用户登录和多设备使用功能。
 
 # 基础条件
 `ts-fsrs-demo`尽量少用依赖，减少门槛，但不可避免的使用了以下依赖：
@@ -14,7 +14,7 @@ tailwindcss (>= 3)
 daisyui (>= 4.4.22) # 最流行Tailwind CSS的组件库
 ```
 因此本文章希望读者具备以下的基础条件：
-- 掌握React的hooks和Context的基本知识
+- 掌握React的Hooks和Context的基本知识
 - 了解Next.js的App Router构建项目和~~Server Actions(非必要)~~
 - 了解prisma的基本知识
 - 了解一定的MySQL的基本知识
@@ -36,7 +36,7 @@ https://zhuanlan.zhihu.com/p/670134897
 ```bash
 git clone https://github.com/ishiko732/ts-fsrs-demo.git
 ```
-下载完后请使用npm或pnpm或yarn进行安装依赖(文章中全部采用npm)
+下载完后请使用npm或pnpm或yarn进行安装依赖
 ```
 npm install -g prisma
 npm install -g dotenv
@@ -52,9 +52,9 @@ DATABASE_URL="mysql://{dbUserName}:{dbPassword}:3306/{dbSchema}" # init database
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=xxxxxxx # openssl rand -base64 32
 
-GITHUB_ID=xxxx # github clientId
-GITHUB_SECRET=xxxxxxx # github clientSecret
-GITHUB_ADMIN_ID=xxxx #github user id
+GITHUB_ID=xxxx # GitHub clientId
+GITHUB_SECRET=xxxxxxx # GitHub clientSecret
+GITHUB_ADMIN_ID=xxxx #GitHub user id
 ```
 
 ### 初始化数据库
@@ -68,9 +68,9 @@ npm run dbpush
 当看到类似的消息则表示初始化成功了
 
 ### 初始化next-auth
-从`ts-fsrs-demo`的v2.0.0版本开始，默认使用了`next-auth`作为划分用户信息并使用了`GitHub Oauth`作为识别用户身份。
-所以初始化Next-auth，我们需要在Github上申请一个`Oauth app`：
-- https://github.com/settings/developers (`Github Developer Settings`)
+从`ts-fsrs-demo`的v2.0.0版本开始，默认使用了`next-auth`作为划分用户信息并使用了`GitHub OAuth`作为识别用户身份。
+所以初始化Next-auth，我们需要在Github上申请一个`OAuth app`：
+- https://github.com/settings/developers (`GitHub Developer Settings`)
 - 选择`New Oauth App`
 
 填写以下内容，完成创建操作：
@@ -88,14 +88,14 @@ Authorization callback URL: http://localhost:3000/api/auth/callback/github
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=xxxxxxx # openssl rand -base64 32
 
-GITHUB_ID=dd81b0fb27ce977bdcbd # github clientId 文章发布后已删除，请勿使用该Id
-GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文章发布后已删除，请勿使用该Secret
+GITHUB_ID=dd81b0fb27ce977bdcbd # GitHub clientId 文章发布后已删除，请勿使用该Id
+GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # GitHub clientSecret 文章发布后已删除，请勿使用该Secret
 ```
 
-然后利用`openssl rand -base64 32`生成`NEXTAUTH_SECRET`,然后也是填写到`.env.local`
+然后利用`openssl rand -base64 32`生成`NEXTAUTH_SECRET`,后填写到`.env.local`
 ![[Pasted image 20240114162817.png]]
 
-> `GITHUB_ADMIN_ID`在demo项目中并没有实际用到，所以这里不展开，这个id是将你的github设置为管理员
+> `GITHUB_ADMIN_ID`在demo项目中并没有实际上用到，所以这里不展开，这个id是将你的GitHub账号设置为管理员
 
 > 在首次登录时会自动注册信息，并将`プログラミング必須英単語600+`的笔记内容导入。
 
@@ -104,7 +104,7 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文
 ## 1.扩展TS-FSRS的类型
 
 在[src/types.d.ts](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/types.d.ts)中：
-- 根据[基于TS-FSRS的数据库表设计](https://zhuanlan.zhihu.com/p/672558313),为了能够匹配`Prisma`我们对`ts-fsrs`模块的类型进行了扩展`CardPrisma`，`RevlogPrisma`
+- 根据[基于TS-FSRS的数据库表设计](https://zhuanlan.zhihu.com/p/672558313),为了能够匹配`Prisma`我们对`ts-fsrs`模块的接口进行了一定的扩展`CardPrisma`，`RevlogPrisma`
 ![[Pasted image 20240114164846.png]]
 - 根据[TS-FSRS的工作流](https://zhuanlan.zhihu.com/p/673902928)，新增了`StateBox类型
 ![[Pasted image 20240114164214.png]]
@@ -144,13 +144,13 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文
 	defaultValue={params.params.request_retention} />
 ```
 
-> 采用defaultValue而不采用State，Ref是保证该组件不是客户端组件。
+> 采用`defaultValue`而不采用`State`，`Ref`是为了保证该组件不是客户端组件，避免在服务端组件出现使用了客户端组件的情况。
 
-以下是`src/components/settings/FSRSConfig.tsx`采用Server Actions实现的：
+以下是`src/components/settings/FSRSConfig.tsx`采用`Server Actions`实现的：
 ![[Pasted image 20240114204233.png]]
 ![[Pasted image 20240116111200.png]]
 
-> 如果是请求API，则修改submit方法，在内部使用`fetch("/api/xxx")`来实现保存参数操作。
+> 如果是请求API，则修改`submit`方法，在内部使用`fetch("/api/xxx")`来实现保存参数操作。
 
 ![[Pasted image 20240114171714.png]]
 为了减少不必要的数据读取，我们使用`queryRaw`执行自己写的SQL语句来获取FSRS的参数：
