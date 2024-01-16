@@ -19,6 +19,16 @@ daisyui (>= 4.4.22) # 最流行Tailwind CSS的组件库
 - 了解prisma的基本知识
 - 了解一定的MySQL的基本知识
 - 了解基本的next-auth的oauth知识（不构建多用户登录项目则非必要）
+## 预备文章
+- 【FSRS】基于TS-FSRS的数据库表设计 - 小石子的文章 - 知乎
+https://zhuanlan.zhihu.com/p/672558313
+- 【FSRS】TS-FSRS的工作流 - 小石子的文章 - 知乎
+https://zhuanlan.zhihu.com/p/673902928
+
+其中涉及Next.js相关的文章：
+- 【Next.js】在实际工作中使用Server Actions的技巧【转】 - 小石子的文章 - 知乎
+https://zhuanlan.zhihu.com/p/670134897
+
 
 ## 安装demo项目
 
@@ -107,7 +117,7 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文
 - stateFSRSRatingToPrisma：FSRS的评分类型转为Prisma的评分类型
 
 ## 3.实现卡片交互操作 （Next.js服务端与页面交互）
-`ts-fsrs-demo`会在服务端上完成数据初始化读取后，在客户端组件上进行水合操作，所以需要使用状态管理。`ts-fsrs-demo`采用`React.createContext`来创建状态管理(有兴趣的读者可以采用Mobx，Redux来进行状态管理)。
+`ts-fsrs-demo`会在服务端上完成数据初始化读取后，在客户端组件上进行水合`hydration`操作，所以需要使用状态管理。`ts-fsrs-demo`采用`React.createContext`来创建状态管理(有兴趣的读者可以采用Mobx，Redux来进行状态管理)。
 
 ### FSRS参数交互
 在登录以后允许用户自定义自己的FSRS参数。
