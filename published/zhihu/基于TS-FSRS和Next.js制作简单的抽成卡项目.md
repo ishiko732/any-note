@@ -191,6 +191,8 @@ select count(log.cid) as total from Revlog log
 	where n.uid=${Number(uid)} and log.state='0' and log.review between ${startOfDay} and ${nextDay}
 ```
 > `log.state='0'`表明这卡片为新卡片，该卡复习时间为当天范围内。
+> 
+> 注意：目前这样多用户下库表设计还在思考是否存在问题：是否要将uid字段添加到Revlog
 
 ### 初始化卡片状态管理和操作
 
