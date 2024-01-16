@@ -119,7 +119,134 @@ where uid=(select uid from Note
 > 注意：queryRaw 返回的均为`T[]`
 
 
-##  4. 实现卡片基本操作（数据库与TS-FSRS交互）
+## 4.实现卡片交互操作 （Next.js服务端与页面交互）
+`ts-fsrs-demo`会在服务端上完成数据初始化读取后，在客户端组件上进行水合操作，所以需要使用状态管理。`ts-fsrs-demo`采用`React.createContext`来创建状态管理(有兴趣的读者可以采用Mobx，Redux来进行状态管理)。
+
+### FSRS参数交互
+在登录以后允许用户自定义自己的FSRS参数。
+![[Pasted image 20240114203227.png]]
+
+设计思路：
+- 读取next-auth的userId信息，读取用户当前的FSRS参数,并通过`defaultValue`回显数据
+- 在点击`Save`调用`Server Actions`或请求API保存参数
+
+```jsx
+<input name="request_retention" className="input input-bordered w-full"
+	type="number" max={0.99} min={0.7} step={0.01}
+	defaultValue={params.params.request_retention} />
+```
+
+> 采用defaultValue而不采用State，Ref是保证该组件不是客户端组件。
+
+以下是`src/components/settings/FSRSConfig.tsx`采用Server Actions实现的：
+![[Pasted image 20240114204233.png]]
+![[Pasted image 20240116111200.png]]
+
+> 如果是请求API，则修改submit方法，在内部使用`fetch("/api/xxx")`来实现保存参数操作。
+
+### 初始化卡片数据
+一进入到`http://localhost:3000/card` 页面，将会展示当天所要学习/复习的卡片信息：
+![[Pasted image 20240116103539.png]]
+
+它会根据[TS-FSRS的工作流](https://zhuanlan.zhihu.com/p/673902928)，采用三盒子模型，并采用SSR方式读取数据。
+
+设计思路：
+- 读取next-auth的userId信息
+- 获取当前时间
+	- 如果当前时间<4:00(`UTC+0`)，则取昨天
+	- 如果当前时间>=4:00(`UTC+0`)，则取今天
+- 读取当天已学习的新卡片数量和新卡片当天最大限制(用户设定的限制)
+- 读取笔记数据（根据状态设置筛选条件）
+- 求和计算笔记集合，判断是否已结束
+
+[src/app/card/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/app/card/page.tsx)：
+![[Pasted image 20240114204857.png]]
+![[Pasted image 20240114205818.png]]
+
+
+### 初始化卡片状态管理和操作
+
+在`CardClient`的最外层使用了`CardProvider`来保证内层组件都可以访问`CardContext`的值。
+![[Pasted image 20240114210219.png]]
+
+
+首先需要将服务器上读取到的数据进行转换为三盒子模型，并设定：
+- `open`当前状态为不显示答案信息
+- `schedule`当前卡片调度信息为未定义`undefined`
+- `currentType`读取指向的盒子是哪个
+![[Pasted image 20240114211005.png]]
+
+
+`CardProvider` 会在点击评分按钮时触发：
+- 请求获取下一张卡片调度情况
+- 对数据进行随机排序，其中学习中卡片盒子则是会根据调度时间排序
+- 记录当前复习操作到操作回滚栈
+- 发送到服务器保存复习记录信息
+- 检查是否已结束当日的复习
+
+### 请求获取下一张卡片调度情况
+![[Pasted image 20240114212055.png]]
+首次加载，点击评分按钮，回滚卡片都会执行读取调度情况操作。
+![[Pasted image 20240114211510.png]]
+将采用请求API(`/api/fsrs[POST]`)的方式获取调度信息。
+![[Pasted image 20240116104134.png]]
+
+> 注意：ts-fsrs的repeat方法有一个**隐藏特性**：会原封不动的保留传入字段，除了ts-fsrs调度需要的卡片Card字段会被修正。
+> 例如：你在传入时存在cid，nid，note信息，但是ts-fsrs的card类型并不会出现这些字段，则会保留下来，返回时也会返回
+
+
+![[Pasted image 20240114211649.png]]
+
+> 在服务器上执行的原因是：
+> 1. 采用不信任式模式，即客户端不直接调度卡片
+> 2. 保证所有数据的时区均是服务器的时区（也可以使用api传入的now时间做为时区，这就要修改prisma的时间字段 添加`@UTC`注解）
+
+
+
+### 对数据进行随机排序
+在每次点击完评分按钮后将会执行数据排序
+![[Pasted image 20240114212055.png]]
+![[Pasted image 20240114211946.png]]
+### 记录当前复习操作到操作回滚栈
+
+完成回滚栈初始化状态：
+![[Pasted image 20240114212432.png]]
+
+在每次点击完评分按钮后将会执行入栈操作：
+![[Pasted image 20240114212851.png]]
+这里的nextStateBox是三盒子模型的状态，所以不存在`State.Relearning`这个状态，三盒子状态下将`State.Relearning`的数据归并到`State.Learning`中。
+
+
+在按下快捷键`Ctrl+Z`或者`⌘+Z`时触发回滚操作将采用请求API的方式获取回滚后的信息。
+![[Pasted image 20240114213331.png]]
+![[Pasted image 20240116105544.png]]
+
+> 注意：ts-fsrs的rollback方法有一个**隐藏特性**：会原封不动的保留传入字段，除了ts-fsrs回滚需要的卡片Card和Revlog字段会被修正。
+> 例如：你在传入时存在cid，nid，note信息，但是ts-fsrs的card类型并不会出现这些字段，则会保留下来，返回时也会返回
+
+![[Pasted image 20240114213250.png]]
+
+在屏幕小的时候则会显示出按钮（虽然我感觉很难看，但为了功能完整性还是加上了）
+![[Pasted image 20240116105418.png]]
+
+
+### 发送到服务器保存复习记录信息
+`CardProvider`中，设计了`handleSchdule`方法，传入评分数据后进行调度，将获取到的数据执行`CardProvider`的`handleChange`方法。
+
+![[Pasted image 20240116105950.png]]
+其中：
+- `nextDue`来判断是否还是当日的数据
+- `nextState`:Grade是卡片状态，用于判断该卡片是否已结束，还是要放到学习中盒子下
+- `nid`：用于回滚卡片使用 （文章中nid=cid=153只是碰巧原因而已）
+
+![[Pasted image 20240116100347.png]]
+### 检查是否已完成当日的复习
+![[Pasted image 20240116110959.png]]
+通过checkFinished方法来判断当前是否已完成当日复习，当未结束时将`currentType`指向非空的盒子
+![[Pasted image 20240114214027.png]]
+![[Pasted image 20240114214042.png]]
+
+## 5.实现卡片基本操作（数据库与TS-FSRS交互）
 
 在[src/lib/card.ts](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/lib/card.ts)中，我们实现了卡片相关的查找，调度，忘记，回滚等操作。
 ### 查找卡片
@@ -155,6 +282,8 @@ export async function isAdminOrSelf(uid: number) {
 
 当所有条件判断完以后，我们调用fsrs，并将用户的FSRS参数传入，调用repeat进行调度，并返回调度的结果。
 
+> 注意：ts-fsrs的repeat方法，会原封不动的保留传入字段，除了ts-fsrs调度需要的卡片字段
+> 例如：你在传入时存在cid，note信息，但是ts-fsrs的card类型并不会出现这些字段，则会保留下来
 ### 忘记卡片
 ![[Pasted image 20240114174151.png]]
 通过调用fsrs.forget可以实现忘记卡片，需要传递已复习的卡片信息和当前时间，还有可选项是否重置已复习的次数
@@ -180,106 +309,3 @@ type RecordLogItem = {
 - 第117行需要读取最后一次`Revlog`记录
 - 第132行使用的方法为rollback
 
-## 4.实现卡片交互操作 （Next.js服务端与页面交互）
-`ts-fsrs-demo`会在服务端上完成数据初始化读取后，在客户端组件上进行水合操作，所以需要使用状态管理。`ts-fsrs-demo`采用`React.createContext`来创建状态管理(有兴趣的读者可以采用Mobx，Redux来进行状态管理)。
-
-### FSRS参数交互
-在登录以后允许用户自定义自己的FSRS参数。
-![[Pasted image 20240114203227.png]]
-
-设计思路：
-- 读取next-auth的userId信息，读取用户当前的FSRS参数,并通过`defaultValue`回显数据
-- 在点击`Save`调用`Server Actions`或请求API保存参数
-
-```jsx
-<input name="request_retention" className="input input-bordered w-full"
-	type="number" max={0.99} min={0.7} step={0.01}
-	defaultValue={params.params.request_retention} />
-```
-
-> 采用defaultValue而不采用State，Ref是保证该组件不是客户端组件。
-
-以下是`src/components/settings/FSRSConfig.tsx`采用Server Actions实现的：
-![[Pasted image 20240114204233.png]]
-
-> 如果是请求API，则修改submit方法，在内部使用`fetch("/api/xxx")`来实现保存参数操作。
-
-### 初始化卡片数据
-根据[TS-FSRS的工作流](https://zhuanlan.zhihu.com/p/673902928)，采用三盒子模型。
-
-设计思路：
-- 读取next-auth的userId信息
-- 获取当前时间
-	- 如果当前时间<4:00(`UTC+0`)，则取昨天
-	- 如果当前时间>=4:00(`UTC+0`)，则取今天
-- 读取当天已学习的新卡片数量和新卡片当天最大限制(用户设定的限制)
-- 读取笔记数据（根据状态设置筛选条件）
-- 求和计算笔记集合，判断是否已结束
-
-[src/app/card/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/app/card/page.tsx)：
-![[Pasted image 20240114204857.png]]
-![[Pasted image 20240114205818.png]]
-
-
-### 初始化卡片状态管理和操作
-
-在`CardClient`的最外层使用了`CardProvider`来保证内层组件都可以访问`CardContext`的值。
-![[Pasted image 20240114210219.png]]
-
-
-首先需要将服务器上读取到的数据进行转换为三盒子模型，并设定：
-- `open`当前状态为不显示答案信息
-- `schedule`当前卡片调度信息为未定义`undefined`
-- `currentType`读取指向的盒子是哪个
-![[Pasted image 20240114211005.png]]
-
-
-`CardProvider` 点击评分按钮：
-- 请求获取下一张卡片调度情况
-- 对数据进行随机排序，其中学习中卡片盒子则是会根据调度时间排序
-- 记录当前复习操作到操作回滚栈
-- 发送到服务器保存复习记录信息
-- 检查是否已结束当日的复习
-
-#### 请求获取下一张卡片调度情况
-首次加载，点击评分按钮，回滚卡片都会执行读取调度情况操作。
-
-![[Pasted image 20240114211510.png]]
-将采用请求API的方式获取调度信息。
-![[Pasted image 20240114211649.png]]
-
-> 在服务器上执行的原因是：
-> 1. 采用不信任式模式，即客户端不直接调度卡片
-> 2. 保证所有数据的时区均是服务器的时区
-
-
-#### 对数据进行随机排序
-在每次点击完评分按钮后将会执行数据排序
-![[Pasted image 20240114212055.png]]
-![[Pasted image 20240114211946.png]]
-
-#### 记录当前复习操作到操作回滚栈
-
-完成回滚栈初始化状态：
-![[Pasted image 20240114212432.png]]
-
-在每次点击完评分按钮后将会执行入栈操作：
-![[Pasted image 20240114212851.png]]
-
-在按下快捷键`Ctrl+Z`或者`⌘+Z`时触发回滚操作
-![[Pasted image 20240114213250.png]]
-
-将采用请求API的方式获取回滚后的信息。
-![[Pasted image 20240114213331.png]]
-
-#### 发送到服务器保存复习记录信息
-在[src/components/schedule/ShowAnswerButton.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/3d35060aed21edc3ab214db7c78e4e0ecfa805fa/src/components/schedule/ShowAnswerButton.tsx#L22-L28)中调用，并将获取到的数据执行`CardProvider`的`handleChange`方法。
-![[Pasted image 20240114213657.png]]
-
-> 这里存在设计的失误，可以将handleClick方法修改后放到`CardProvider`里面
-
-
-#### 检查是否已完成当日的复习
-通过checkFinished方法来判断当前是否已完成当日复习，当未结束时将`currentType`指向非空的盒子
-![[Pasted image 20240114214027.png]]
-![[Pasted image 20240114214042.png]]
