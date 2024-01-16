@@ -104,22 +104,7 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文
 - stateFSRSStateToPrisma：FSRS的状态类型转为Prisma的状态类型
 - stateFSRSRatingToPrisma：FSRS的评分类型转为Prisma的评分类型
 
-## 3.读取FSRS参数
-
-![[Pasted image 20240114171714.png]]
-为了减少不必要的数据读取，我们使用`queryRaw`执行自己写的SQL语句来获取FSRS的参数：
-```sql
-select * from Parameters
-where uid=(select uid from Note
-		   where nid in (select nid from Card 
-						 where cid=${Number(cid)}))
-```
-并且在参数存在的时候调用`processArrayParameters`完成类型转换。
-
-> 注意：queryRaw 返回的均为`T[]`
-
-
-## 4.实现卡片交互操作 （Next.js服务端与页面交互）
+## 3.实现卡片交互操作 （Next.js服务端与页面交互）
 `ts-fsrs-demo`会在服务端上完成数据初始化读取后，在客户端组件上进行水合操作，所以需要使用状态管理。`ts-fsrs-demo`采用`React.createContext`来创建状态管理(有兴趣的读者可以采用Mobx，Redux来进行状态管理)。
 
 ### FSRS参数交互
@@ -144,6 +129,17 @@ where uid=(select uid from Note
 
 > 如果是请求API，则修改submit方法，在内部使用`fetch("/api/xxx")`来实现保存参数操作。
 
+![[Pasted image 20240114171714.png]]
+为了减少不必要的数据读取，我们使用`queryRaw`执行自己写的SQL语句来获取FSRS的参数：
+```sql
+select * from Parameters
+where uid=(select uid from Note
+		   where nid in (select nid from Card 
+						 where cid=${Number(cid)}))
+```
+并且在参数存在的时候调用`processArrayParameters`完成类型转换。
+
+> 注意：queryRaw 返回的均为`T[]`
 ### 初始化卡片数据
 一进入到`http://localhost:3000/card` 页面，将会展示当天所要学习/复习的卡片信息：
 ![[Pasted image 20240116103539.png]]
@@ -246,7 +242,7 @@ where uid=(select uid from Note
 ![[Pasted image 20240114214027.png]]
 ![[Pasted image 20240114214042.png]]
 
-## 5.实现卡片基本操作（数据库与TS-FSRS交互）
+## 4.实现卡片基本操作（数据库与TS-FSRS交互）
 
 在[src/lib/card.ts](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/lib/card.ts)中，我们实现了卡片相关的查找，调度，忘记，回滚等操作。
 ### 查找卡片
@@ -309,3 +305,24 @@ type RecordLogItem = {
 - 第117行需要读取最后一次`Revlog`记录
 - 第132行使用的方法为rollback
 
+## 5.读取笔记
+在`http://localhost:3000/note`中，我们可以看到当前用户所用户的笔记信息：
+![[Pasted image 20240116113123.png]]
+> 注意：开发者模式下右边菜单存在2个不必要的子项，但不会影响到生产模式
+> ![[Pasted image 20240116114341.png]]
+
+[src/app/note/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/app/note/page.tsx)中，我们根据当前session所记录的uid和搜索关键词进行读取笔记集合，并进行分类操作。
+![[Pasted image 20240116113718.png]]
+
+## 6.读取复习记录
+在`http://localhost:3000/note/{nid}`中，我们需要读取笔记信息和笔记的复习记录：
+![[Pasted image 20240116115150.png]]
+
+在[src/app/note/[nid]/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/app/note/%5Bnid%5D/page.tsx)中，我们通过读取nid以及判断该笔记的uid是否为自己的，如果没有权限的话禁止访问，否则读取复习记录。
+![[Pasted image 20240116115721.png]]
+
+#### 忘记卡片
+在点击忘记卡片时，会触发`forgetAction`使其变回新卡片
+![[Pasted image 20240116140140.png]]
+
+![[Pasted image 20240116140249.png]]
