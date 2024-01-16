@@ -123,6 +123,17 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文
 在登录以后允许用户自定义自己的FSRS参数。
 ![[Pasted image 20240114203227.png]]
 
+ > 字段信息可参考：
+ > - 【FSRS】基于TS-FSRS的数据库表设计 - 小石子的文章 - 知乎https://zhuanlan.zhihu.com/p/672558313
+
+| 字段名 | 字段解释 |
+| ---- | ---- |
+| request_retention | 记忆概率；代表你想要的目标记忆的概率。注意，在较高的保留率和较高的重复次数之间有一个权衡。建议你把这个值设置在0.8和0.9之间。 |
+| maximum_interval | 最大间隔天数；复习卡片间隔的最大天数。 当复习卡片的间隔达到此天数时， 「困难」、「良好」和「简单」的间隔将会一致。 此间隔越短，工作量越多。 |
+| w | FSRS优化器权重；通过运行FSRS优化器(目前有[fsrs-optimizer](https://link.zhihu.com/?target=https%3A//github.com/open-spaced-repetition/fsrs-optimizer)，[fsrs4anki](https://link.zhihu.com/?target=https%3A//github.com/open-spaced-repetition/fsrs4anki)，[fsrs-rs](https://link.zhihu.com/?target=https%3A//github.com/open-spaced-repetition/fsrs-rs)可使用)创建的参数。默认情况下，这些是由样本数据集计算出来的权重。 |
+| enable_fuzz | 启用抖动；当启用时，这将为新的间隔时间增加一个小的随机延迟，以防止卡片粘在一起，总是在同一天被复习。 |
+
+
 设计思路：
 - 读取next-auth的userId信息，读取用户当前的FSRS参数,并通过`defaultValue`回显数据
 - 在点击`Save`调用`Server Actions`或请求API保存参数
@@ -171,6 +182,15 @@ where uid=(select uid from Note
 ![[Pasted image 20240114204857.png]]
 ![[Pasted image 20240114205818.png]]
 
+![[Pasted image 20240116210026.png]]
+读取当天已复习数量采用`queryRaw`来获取：
+```sql
+select count(log.cid) as total from Revlog log
+	left join Card c on c.cid = log.cid
+	left join Note n on n.nid = c.nid
+	where n.uid=${Number(uid)} and log.state='0' and log.review between ${startOfDay} and ${nextDay}
+```
+> `log.state='0'`表明这卡片为新卡片，该卡复习时间为当天范围内。
 
 ### 初始化卡片状态管理和操作
 
