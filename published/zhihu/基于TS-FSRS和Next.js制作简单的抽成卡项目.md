@@ -135,7 +135,7 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # GitHub clientSecret 文
 
 
 设计思路：
-- 读取next-auth的userId信息，读取用户当前的FSRS参数,并通过`defaultValue`回显数据
+- 利用next-auth读取Session的userId信息，读取用户当前的FSRS参数,并通过`defaultValue`回显数据
 - 在点击`Save`调用`Server Actions`或请求API保存参数
 
 ```jsx
@@ -185,10 +185,11 @@ where uid=(select uid from Note
 ![[Pasted image 20240116210026.png]]
 读取当天已复习数量采用`queryRaw`来获取：
 ```sql
-select count(log.cid) as total from Revlog log
-	left join Card c on c.cid = log.cid
-	left join Note n on n.nid = c.nid
-	where n.uid=${Number(uid)} and log.state='0' and log.review between ${startOfDay} and ${nextDay}
+select count(log.cid) as total 
+from Revlog log
+left join Card c on c.cid = log.cid
+left join Note n on n.nid = c.nid
+where n.uid=${Number(uid)} and log.state='0' and log.review between ${startOfDay} and ${nextDay}
 ```
 > `log.state='0'`表明这卡片为新卡片，该卡复习时间为当天范围内。
 > 
@@ -251,7 +252,7 @@ select count(log.cid) as total from Revlog log
 ![[Pasted image 20240114213331.png]]
 ![[Pasted image 20240116105544.png]]
 
-> 注意：ts-fsrs的rollback方法有一个**隐藏特性**：会原封不动的保留传入字段，除了ts-fsrs回滚需要的卡片Card和Revlog字段会被修正。
+> 注意：ts-fsrs的`rollback`方法有一个**隐藏特性**：会原封不动的保留传入字段，除了ts-fsrs回滚需要的卡片Card和Revlog字段会被修正。
 > 例如：你在传入时存在cid，nid，note信息，但是ts-fsrs的card类型并不会出现这些字段，则会保留下来，返回时也会返回
 
 ![[Pasted image 20240114213250.png]]
@@ -312,7 +313,7 @@ export async function isAdminOrSelf(uid: number) {
 
 当所有条件判断完以后，我们调用fsrs，并将用户的FSRS参数传入，调用repeat进行调度，并返回调度的结果。
 
-> 注意：ts-fsrs的repeat方法，会原封不动的保留传入字段，除了ts-fsrs调度需要的卡片字段
+> 注意：ts-fsrs的`repeat`方法，会原封不动的保留传入字段，除了ts-fsrs调度需要的卡片字段
 > 例如：你在传入时存在cid，note信息，但是ts-fsrs的card类型并不会出现这些字段，则会保留下来
 ### 忘记卡片
 ![[Pasted image 20240114174151.png]]
@@ -327,6 +328,8 @@ type RecordLogItem = {
 };
 ```
 
+> 注意：ts-fsrs的`forget`方法，会原封不动的保留传入字段，除了ts-fsrs调度需要的卡片字段
+> 例如：你在传入时存在cid，note信息，但是ts-fsrs的card类型并不会出现这些字段，则会保留下来
 ### 回滚卡片
 ![[Pasted image 20240114174308.png]]
 通过调用fsrs.rollback可以实现回滚上一次操作，需要传递已复习的卡片信息和最新的复习记录。
@@ -360,6 +363,8 @@ type RecordLogItem = {
 ![[Pasted image 20240116140140.png]]
 
 ![[Pasted image 20240116140249.png]]
+
+
 
 
 # 部署
