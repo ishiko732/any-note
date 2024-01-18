@@ -117,7 +117,7 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文
 - stateFSRSRatingToPrisma：FSRS的评分类型转为Prisma的评分类型
 
 ## 3.实现卡片交互操作 （Next.js服务端与页面交互）
-`ts-fsrs-demo`会在服务端上完成数据初始化读取后，在客户端组件上进行水合`hydration`操作，所以需要使用状态管理。`ts-fsrs-demo`采用`React.createContext`来创建状态管理(有兴趣的读者可以采用Mobx，Redux来进行状态管理)。
+`ts-fsrs-demo`会在服务端上完成数据初始化读取后，在客户端组件上进行水合`hydration`操作，所以需要使用状态管理。`ts-fsrs-demo`采用`React.createContext`来创建状态管理(有兴趣的读者可以采用`Jotai`，`Mobx`，`Redux`来进行状态管理)。
 
 ### FSRS参数交互
 在登录以后允许用户自定义自己的FSRS参数。
