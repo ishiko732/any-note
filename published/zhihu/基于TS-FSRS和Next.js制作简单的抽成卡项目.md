@@ -103,14 +103,14 @@ GITHUB_SECRET=ffaffd296afcc0d46b28447655b2a9ac84508263 # github clientSecret 文
 # 抽成卡实现
 ## 1.扩展TS-FSRS的类型
 
-在[src/types.d.ts](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/types.d.ts)中：
+在[src/types.d.ts](https://github.com/ishiko732/ts-fsrs-demo/tree/v2.1.2/src/types.d.ts)中：
 - 根据[基于TS-FSRS的数据库表设计](https://zhuanlan.zhihu.com/p/672558313),为了能够匹配`Prisma`我们对`ts-fsrs`模块的类型进行了扩展`CardPrisma`，`RevlogPrisma`
 ![[Pasted image 20240114164846.png]]
 - 根据[TS-FSRS的工作流](https://zhuanlan.zhihu.com/p/673902928)，新增了`StateBox类型
 ![[Pasted image 20240114164214.png]]
 
 ## 2.FSRS类型与Prisma类型互换
-由于TS-FSRS的类型存在不匹配情况，所以需要进行封装一次类型转换，在[src/vendor/fsrsToPrisma/index.ts](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/vendor/fsrsToPrisma/index.ts)中，实现了FSRS类型与Prisma类型互换：
+由于TS-FSRS的类型存在不匹配情况，所以需要进行封装一次类型转换，在[src/vendor/fsrsToPrisma/index.ts](https://github.com/ishiko732/ts-fsrs-demo/tree/v2.1.2/src/vendor/fsrsToPrisma/index.ts)中，实现了FSRS类型与Prisma类型互换：
 - createEmptyCardByPrisma：创建新的卡片
 - transferPrismaCardToCard：Prisma类型转回FSRS类型
 - stateFSRSStateToPrisma：FSRS的状态类型转为Prisma的状态类型
@@ -167,7 +167,7 @@ where uid=(select uid from Note
 - 读取笔记数据（根据状态设置筛选条件）
 - 求和计算笔记集合，判断是否已结束
 
-[src/app/card/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/app/card/page.tsx)：
+[src/app/card/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/tree/v2.1.2/src/app/card/page.tsx)：
 ![[Pasted image 20240114204857.png]]
 ![[Pasted image 20240114205818.png]]
 
@@ -256,7 +256,7 @@ where uid=(select uid from Note
 
 ## 4.实现卡片基本操作（数据库与TS-FSRS交互）
 
-在[src/lib/card.ts](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/lib/card.ts)中，我们实现了卡片相关的查找，调度，忘记，回滚等操作。
+在[src/lib/card.ts](https://github.com/ishiko732/ts-fsrs-demo/tree/v2.1.2/src/lib/card.ts)中，我们实现了卡片相关的查找，调度，忘记，回滚等操作。
 ### 查找卡片
 ![[Pasted image 20240114170750.png]]
 我们通过Prisma根据`cid`来查找卡片，并返回包含笔记信息，并将返回类型设为`CardPrisma`
@@ -323,14 +323,14 @@ type RecordLogItem = {
 > 注意：开发者模式下右边菜单存在2个不必要的子项，但不会影响到生产模式
 > ![[Pasted image 20240116114341.png]]
 
-[src/app/note/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/app/note/page.tsx)中，我们根据当前session所记录的uid和搜索关键词进行读取笔记集合，并进行分类操作。
+[src/app/note/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/tree/v2.1.2/src/app/note/page.tsx)中，我们根据当前session所记录的uid和搜索关键词进行读取笔记集合，并进行分类操作。
 ![[Pasted image 20240116113718.png]]
 
 ## 6.读取复习记录
 在`http://localhost:3000/note/{nid}`中，我们需要读取笔记信息和笔记的复习记录：
 ![[Pasted image 20240116115150.png]]
 
-在[src/app/note/[nid]/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/blob/main/src/app/note/%5Bnid%5D/page.tsx)中，我们通过读取nid以及判断该笔记的uid是否为自己的，如果没有权限的话禁止访问，否则读取复习记录。
+在[src/app/note/[nid]/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/tree/v2.1.2/src/app/note/%5Bnid%5D/page.tsx)中，我们通过读取nid以及判断该笔记的uid是否为自己的，如果没有权限的话禁止访问，否则读取复习记录。
 ![[Pasted image 20240116115721.png]]
 
 #### 忘记卡片
