@@ -177,6 +177,8 @@ where uid=(select uid from Note
 - 读取笔记数据（根据状态设置筛选条件）
 - 求和计算笔记集合，判断是否已结束
 
+> 提示：如果要根据用户的时区信息，可以将读取卡片数据滞后到客户端水合完毕以后，或者读取该用户最后一次复习记录的复习时间，根据那个时间读取UTC/GMT时区信息（需要修改review字段添加`@UTC`注解）
+
 [src/app/card/page.tsx](https://github.com/ishiko732/ts-fsrs-demo/tree/v2.1.2/src/app/card/page.tsx)：
 ![[Pasted image 20240114204857.png]]
 ![[Pasted image 20240114205818.png]]
@@ -401,6 +403,10 @@ prisma generate && next build
 
 ![[Pasted image 20240116164328.png]]
 点击复制按钮复制数据库连接`DATABASE_URL`的参数。
+
+> 首次初始化数据库表建议在本地使用`Admin`角色，并修改`DATABASE_URL`参数后使用`npm run dbpush`完成初始化库表
+
+
 ## 添加环境变量
 在`Environment Variables`中设置以下相关参数（本地与`.env.local`一致）：
 ```bash
