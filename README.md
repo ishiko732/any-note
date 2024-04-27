@@ -3,7 +3,7 @@
 
 <div align="center"> 
   <img 
-    src="https://github-readme-stats-git-master-airopis-projects.vercel.app/api?username=ishiko732&show_icons=true&count_private=true&theme=transparent&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR"
+    src="https://github-readme-stats-git-master-airopis-projects.vercel.app/api?username=ishiko732&show_icons=true&count_private=true&theme=transparent&role=OWNER,ORGANIZATION_MEMBER,COLLABORATOR&show=reviews"
     alt="My Github stats"
     height="200"
   />
