@@ -6,6 +6,7 @@ Hello there! I'm ishiko, a Node.js Engineer from ShenZheng. I am currently in th
 - [ ] Koa
 - [ ] tsyringe
 - [ ] Next.js ( IOC + Server Actions )
+- [ ] CopilotKit
 - [ ] ...
 
 <div align="center"> 
