@@ -5,6 +5,7 @@ Hello there! I'm ishiko, a Node.js Engineer from ShenZheng. I am currently in th
 # Learning
 - [ ] Koa
 - [ ] tsyringe
+- [ ] Next.js ( IOC + Server Actions )
 - [ ] ...
 
 <div align="center"> 
