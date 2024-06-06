@@ -1,5 +1,11 @@
 
+# Hi there 👋
+Hello there! I'm ishiko, a Node.js Engineer from ShenZheng. I am currently in the process of changing jobs and residences, so I may not be able to respond to messages promptly.
 
+# Learning
+- [ ] Koa
+- [ ] tsyringe
+- [ ] ...
 
 <div align="center"> 
   <img 
